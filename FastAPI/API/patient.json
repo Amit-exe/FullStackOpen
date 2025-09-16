@@ -1,0 +1,59 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "email": "john.doe@example.com",
+      "age": 28,
+      "height_cm": 151,
+      "weight_kg": 56,
+      "bmi": 24.6,
+      "city": "Los Angeles",
+      "verdict": "Normal weight"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "email": "jane.smith@example.com",
+      "age": 32,
+      "height_cm": 176,
+      "weight_kg": 90,
+      "bmi": 29.1,
+      "city": "San Francisco",
+      "verdict": "Overweight"
+    },
+    {
+      "id": 3,
+      "name": "Bob Johnson",
+      "email": "bob.johnson@example.com",
+      "age": 45,
+      "height_cm": 160,
+      "weight_kg": 81,
+      "bmi": 31.6,
+      "city": "New York",
+      "verdict": "Obese"
+    },
+    {
+      "id": 4,
+      "name": "Alice Brown",
+      "email": "alice.brown@example.com",
+      "age": 23,
+      "height_cm": 173,
+      "weight_kg": 99,
+      "bmi": 33.1,
+      "city": "Los Angeles",
+      "verdict": "Obese"
+    },
+    {
+      "id": 5,
+      "name": "Charlie Wilson",
+      "email": "charlie.wilson@example.com",
+      "age": 35,
+      "height_cm": 165,
+      "weight_kg": 85,
+      "bmi": 31.2,
+      "city": "New York",
+      "verdict": "Obese"
+    }
+  ]
+}
