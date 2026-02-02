@@ -1,5 +1,22 @@
 const express = require("express");
 const app = express();
+const morgan = require("morgan")
+const PORT = process.env.PORT || 3001;
+
+
+app.use(express.json())
+const cusm = morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms',
+    JSON.stringify(req.body)
+  ].join(' ')
+})
+const cors = require("cors");
+const e = require("cors");
 let notes = [
   {
     id: "1",
@@ -17,6 +34,12 @@ let notes = [
     important: true,
   },
 ];
+app.use(cusm)
+app.use(cors())
+const genertateID =()=>{
+  return String(Math.max(...notes.map(e=>Number(e.id))) + 1)
+}
+app.use(express.json()); 
 app.get("/", (request, response) => {
   response.send("<h1>Hello World!</h1>");
 });
@@ -42,7 +65,26 @@ app.delete("/api/notes/:id", (request, response) => {
   response.status(204).end();
 });
 
-const PORT = 3001;
+app.post('/api/notes',(request,response)=>{
+  const body = request.body;
+  
+  const note = {
+    content : body.content,
+    important : body.important || false,
+    id: genertateID()
+  }
+
+  if(!request.body){
+    response.status(400).json({"error":"missing content"})
+  }
+  
+  notes = [...notes,note]
+  
+  response.status(201).json(note)
+  
+})
+
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
