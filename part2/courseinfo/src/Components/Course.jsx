@@ -7,15 +7,15 @@ function Course({ course }) {
 
   return (
     <div>
-      <Header header={course.name} />
-      {course.parts.map((p) => (
+      <Header header={course.content} />
+      {/* {course.parts.map((p) => (
         <Part key={p.id} part={p} />
       ))}
       <p>
         <b>
           total of {course.parts.reduce((a, b) => a + b.exercises, 0)} exercises
         </b>
-      </p>
+      </p> */}
     </div>
   );
 }

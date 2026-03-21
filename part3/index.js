@@ -1,8 +1,26 @@
-const express = require("express")
-let { default: person } = require("./person")
+const express = require('express')
+const connectDB = require('./mongo')
+const morgan = require('morgan')
+const personRoute = require('./routes/personRoute')
+const Personxx = require('./models/persons')
 const app = express()
+connectDB()
 
-const morgan = require("morgan")
+
+const errorHandler = require('./error')
+
+const defaultErrorHandler = (error, request, response, next) => {
+  
+  if (response.headersSent) {
+    return next(error)
+  }
+  
+  response.status(error.status || 500).json({
+    error: 'Internal Server Error',
+    message: error.message || 'An unexpected error occurred'
+  })
+}
+
 
 const cusm = morgan(function (tokens, req, res) {
   return [
@@ -15,82 +33,37 @@ const cusm = morgan(function (tokens, req, res) {
   ].join(' ')
 })
 
-const port = process.env.PORT || 3001
-
 app.use(express.json())
-app.use(express.static('dist'))
 app.use(cusm)
-const generateId = ()=>{
-    return String(Math.floor(Math.random()*1000))
-}
+
 app.get('/',(req,res)=>{
-    return res.status(200).send({'msg':"welcome to phone book"})
+  return res.status(200).send({'msg':'welcome to phone book'})
 })
 
-app.get('/api/persons',(req,res)=>{
-    return res.status(200).send(person)
-})
+app.use('/api/persons',personRoute)
 
-app.post('/api/persons',(req,res)=>{
-
-    const body = req.body
-     if(!body)
-        return res.status(400).send({"msg":"no data"})
-
-     else if (!body.name)
-        return res.status(400).send({"msg":"no name"})
-
-     else if (!body.number)
-        return res.status(400).send({"msg":"no phone"})
-
-     else if (person.filter(p=>p.name===body.name).length>0)
-        return res.status(400).send({"msg":"name must be unique"})
-
-    const newPerson = {
-        name: body.name,
-        number: body.number,
-        id: generateId()
-    }
-
+app.get('/api/info', async (req,res)=>{
+  try {
+    const nop = (await Personxx.countDocuments())
+    const data = `Phone book has info of ${nop} people\n${new Date().toLocaleString()}`
+    return res.status(200).send(data)
+  } catch (error) {
+    console.log(`Error:${error}`)
+    return res.status(500).send({'message':'error'})
+  }
+  
    
-
-    person = [...person,newPerson]
-    return res.status(201).send(newPerson)
 })
 
-app.get('/api/persons/:id',(req,res)=>{
-    console.log(req.params.id);
-    
-    const person1 = person.filter((p)=>p.id===req.params.id)
-    console.log(person1);
-    
-    if(person1.length===0){
-       return res.status(404).send({"msg":"person not found"})}
-   return res.status(200).send(person1)
-})
-
-app.delete('/api/persons/:id',(req,res)=>{
-    console.log(req.params.id);
-    
-    const updatedPeson = person.filter((p)=>p.id!==req.params.id)
-
-    person = updatedPeson;
-    
-   return res.status(204).send({"msg":"deleted"})
-})
-
-app.get('/api/info',(req,res)=>{
-    const data = `Phone book has info of ${person.length} people\n${now}`;
-   return res.status(200).send(data)
-})
-
-
-app.use((req, res, next) => {
+app.use((req, res) => {
   res.status(404).json({
     message: 'Ohh you are lost, read the API documentation to find your way back home :)'
-  });
-});
-
-app.listen(port,()=>{
-    console.log(`started server on ${port}`)
+  })
 })
+
+app.use(errorHandler)
+app.use(defaultErrorHandler)
+app.listen(process.env.PORT || 3001,()=>{
+  console.log('started server')
+})
+
