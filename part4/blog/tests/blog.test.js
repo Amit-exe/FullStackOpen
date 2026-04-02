@@ -91,3 +91,24 @@ describe("favoratie blog",()=>{
         assert.deepStrictEqual(result,blogs[0])
     })
 })
+
+describe("most blogs",()=>{
+
+    test("most blogs",()=>{
+        const result = listHelper.mostBlogs(blogs);
+        assert.deepStrictEqual(result, {
+  'author':'Robert C. Martin',
+  'blogs':3
+})
+    })
+
+    // test("favorite blog with 0 element",()=>{
+    //     const result = listHelper.favoriteBlog([]);
+    //     assert.deepStrictEqual(result,0)
+    // })
+
+    // test("favorite blog with one element",()=>{
+    //     const result = listHelper.favoriteBlog([blogs[0]]);
+    //     assert.deepStrictEqual(result,blogs[0])
+    // })
+})

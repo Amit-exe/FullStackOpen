@@ -12,12 +12,29 @@ const favoriteBlog = (blogs)=>{
   
 }
 
-const mostBlogs = ()=>{
+const mostBlogs = (blogs)=>{
+  // console.log(blogs);
+  const count = {};
+
+  for (const i of blogs) {
+    count[i.author] = (count[i.author] || 0) + 1;
+}
+  
+const maxC = Object.keys(count).reduce((a, b) => count[a] > count[b] ? a : b);
+console.log("most liked blog athor is ",maxC);
+
+return {
+  'author':maxC,
+  'blogs':count[maxC]
+}
+
+
   
 }
 
 module.exports = {
   dummy,
   totalLikes,
-  favoriteBlog
+  favoriteBlog,
+  mostBlogs
 }
