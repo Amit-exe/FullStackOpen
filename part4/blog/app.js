@@ -4,7 +4,7 @@ const {tokenExtractor, errorHandler} =  require("./utils/middleware")
 
 const dns = require('node:dns');
 const express = require('express');
-require('express-async-errors'); // Added this
+
 const userRouter = require('./routers/user.route');
 
 

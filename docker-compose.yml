@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      context: ./part4/blog
+      dockerfile: Dockerfile
+    ports:
+      - "4001:4001" # expose for direct testing if needed
+    env_file:
+      - ./part4/blog/.env
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./part5/bloglist-frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80" # your app will be on http://localhost
+    depends_on:
+      - backend
+    restart: unless-stopped
