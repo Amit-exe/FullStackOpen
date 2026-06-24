@@ -1,0 +1,35 @@
+name: Deploy to EC2
+
+# Trigger on every push to main branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1 - Checkout code (runs on GitHub's VM, not EC2)
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2 - SSH into EC2 and deploy
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/FullStackOpen
+
+            # Pull latest code
+            git pull origin main
+
+            # Rebuild and restart containers
+            docker compose up --build -d
+
+            # Clean up unused images (saves disk space)
+            docker image prune -f

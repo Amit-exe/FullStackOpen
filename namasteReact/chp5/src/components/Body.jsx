@@ -23,7 +23,7 @@ const Body = () => {
       let updatedRes;
 
       if (newState) {
-        updatedRes = fr.filter((a) => a.info.avgRating > 4.5);321SFCE
+        updatedRes = fr.filter((a) => a.info.avgRating > 4.5);
       } else {
         updatedRes = showRes;
       }

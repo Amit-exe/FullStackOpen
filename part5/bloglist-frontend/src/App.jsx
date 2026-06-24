@@ -41,6 +41,7 @@ const App = () => {
       {!user && <Login setUser={setUser} setError={setErrorMessage} />}
       {user && (
         <div>
+          <h1>Welcome to my blog site</h1>
           <p className="text-2xl py-2 font-medium">
             {user.username} logged in{" "}
             <button
