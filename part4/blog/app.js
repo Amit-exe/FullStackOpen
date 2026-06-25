@@ -6,7 +6,8 @@ const dns = require("node:dns");
 const express = require("express");
 
 const userRouter = require("./routers/user.route");
-const commentRouter = require("./routers/comment.router");
+
+const commentRouter = require("./routers/comment.route");
 
 const app = express();
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
