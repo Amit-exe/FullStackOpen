@@ -28,6 +28,25 @@ jobs:
             # Pull latest code
             git pull origin main
 
+            cat > part4/blog/ecosystem.config.js << 'EOF'
+            module.exports = {
+              apps: [{
+                name: "blog-backend",
+                script: "index.js",
+                env: {
+                  NODE_ENV: "production",
+                  PORT: 4001,
+                  MONGO_URI: "${{ secrets.MONGO_URI }}",
+                  SECRET: "${{ secrets.SECRET }}",
+                  PG_HOST: "${{ secrets.PG_HOST }}",
+                  PG_DATABASE: "blogcomments",
+                  PG_USER: "postgres",
+                  PG_PASSWORD: "${{ secrets.PG_PASSWORD }}"
+                }
+              }]
+            }
+            EOF
+
             # Rebuild and restart containers
             docker compose up --build -d
 

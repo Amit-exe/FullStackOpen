@@ -67,7 +67,14 @@ function CreateBlog({
             Create
           </button>
 
-          <button onClick={() => setCreateVisible(false)}>cancel</button>
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setCreateVisible(false);
+            }}
+          >
+            cancel
+          </button>
         </form>
       </div>
     </div>
